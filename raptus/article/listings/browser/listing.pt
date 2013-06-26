@@ -7,6 +7,7 @@
       tal:omit-tag="">
 
   <div tal:omit-tag="not:view/cssClass"
+       tal:condition="view/articles"
        tal:attributes="class view/cssClass">
 
   <h2 tal:condition="view/title"
@@ -15,7 +16,6 @@
   </h2>
 
   <ul i18n:domain="raptus.article"
-      tal:condition="view/articles"
       tal:attributes="class string:visualNoMarker manageableList listing listing-${view/type} ${view/type}">
     <tal:item repeat="item view/articles">
     <li class="component"

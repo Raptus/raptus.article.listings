@@ -93,7 +93,7 @@ class ViewletLeft(ViewletBase):
     @memoize
     def wysiwyg(self):
         props = getToolByName(self.context, 'portal_properties').raptus_article
-        return props.getProperty('listings_%s_additionalwysiwyg' % self.type, False)
+        return props.getProperty('listings_%s_wysiwyg' % self.type, False)
 
     def _data(self, item, i, l):
         item.update({'title': item['brain'].Title,

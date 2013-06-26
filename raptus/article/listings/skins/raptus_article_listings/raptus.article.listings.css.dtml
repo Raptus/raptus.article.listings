@@ -55,6 +55,20 @@ ul.listing li {
   margin:0;
 }
 
+ul.listing li .body li {
+  width:auto;
+  float:none;
+  overflow:visible;
+  border:none;
+  padding:0;
+  margin:0 0 0.5em 0;
+}
+
+ul.listing .body h2,
+ul.listing .body h3 {
+  margin:0.75em 0 0.25em 0;
+}
+
 ul.listing-left li .component a,
 ul.listing-left li .component span {
   <dtml-if expr="left_crop_width > 0">
