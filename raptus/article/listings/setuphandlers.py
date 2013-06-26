@@ -2,7 +2,9 @@ from Products.CMFCore.utils import getToolByName
 
 DEPENDENCIES = (
     'raptus.article.teaser',
+    'raptus.article.additionalwysiwyg',
 )
+
 
 def installDependencies(context):
     """ Installs optional dependencies
@@ -10,7 +12,7 @@ def installDependencies(context):
     if context.readDataFile('raptus.article.listings_install.txt') is None:
         return
     portal = context.getSite()
-    
+
     inst = getToolByName(portal, 'portal_quickinstaller')
     for prod in DEPENDENCIES:
         if inst.isProductInstallable(prod):

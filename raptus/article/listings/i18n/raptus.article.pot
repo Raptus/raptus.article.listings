@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-01-19 12:35+0000\n"
+"POT-Creation-Date: 2013-06-26 08:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,35 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: raptus.article\n"
 
-#: raptus.article.listings/raptus/article/listings/browser/listing.py:146
+#: ./browser/listing.py:189
 msgid "List of the contained articles arranged in columns."
 msgstr ""
 
-#: raptus.article.listings/raptus/article/listings/browser/listing.py:38
+#: ./browser/listing.py:48
 msgid "List of the contained articles with their image on the left side."
 msgstr ""
 
-#: raptus.article.listings/raptus/article/listings/browser/listing.py:119
+#: ./browser/listing.py:159
 msgid "List of the contained articles with their image on the right side."
 msgstr ""
 
-#: raptus.article.listings/raptus/article/listings/browser/listing.py:145
+#: ./browser/listing.py:225
+msgid "List of the contained articles with their images alternating on the left or right."
+msgstr ""
+
+#: ./browser/listing.py:224
+msgid "Listing alternating"
+msgstr ""
+
+#: ./browser/listing.py:188
 msgid "Listing columns"
 msgstr ""
 
-#: raptus.article.listings/raptus/article/listings/browser/listing.py:37
+#: ./browser/listing.py:47
 msgid "Listing left"
 msgstr ""
 
-#: raptus.article.listings/raptus/article/listings/browser/listing.py:118
+#: ./browser/listing.py:158
 msgid "Listing right"
 msgstr ""
 

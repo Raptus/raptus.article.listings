@@ -24,4 +24,11 @@
         viewlet=".listing.ViewletColumns"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody" />
 
+    <article:component
+        name="listing.alternating"
+        component=".listing.ComponentAlternating"
+        selection="raptus.article.core.interfaces.IArticle"
+        viewlet=".listing.ViewletAlternating"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody" />
+
 </configure>

@@ -6,6 +6,14 @@
       lang="en"
       tal:omit-tag="">
 
+  <div tal:omit-tag="not:view/cssClass"
+       tal:attributes="class view/cssClass">
+
+  <h2 tal:condition="view/title"
+      tal:content="view/title">
+    Listing title
+  </h2>
+
   <ul i18n:domain="raptus.article"
       tal:condition="view/articles"
       tal:attributes="class string:visualNoMarker manageableList listing listing-${view/type} ${view/type}">
@@ -13,13 +21,16 @@
     <li class="component"
         tal:attributes="class string:component ${item/class}">
       <metal:manage use-macro="context/raptus_article_macros/macros/manage" />
-      <h2 tal:condition="view/title_pre">
+      <h2 tal:condition="view/title_pre"
+          tal:omit-tag="view/title">
+      <tal:h3 tal:condition="view/title" tal:content="structure string:&lt;h3&gt;"></tal:h3>
         <a href=""
            tal:omit-tag="not: item/url"
            tal:attributes="href item/url"
            tal:content="item/title">
           Title 
         </a>
+      <tal:h3 tal:condition="view/title" tal:content="structure string:&lt;/h3&gt;"></tal:h3>
       </h2>
       <div class=""
            tal:condition="item/image|nothing"
@@ -38,22 +49,31 @@
           </span>
         </span> 
         </a>
-  
       </div>
-      <h2 tal:condition="not: view/title_pre">
+      <h2 tal:condition="not: view/title_pre"
+          tal:omit-tag="view/title">
+      <tal:h3 tal:condition="view/title" tal:content="structure string:&lt;h3&gt;"></tal:h3>
         <a href=""
            tal:omit-tag="not: item/url"
            tal:attributes="href item/url"
            tal:content="item/title">
           Title 
         </a>
+      <tal:h3 tal:condition="view/title" tal:content="structure string:&lt;/h3&gt;"></tal:h3>
       </h2>
       <p tal:condition="item/description"
          tal:content="item/description">
         Description
       </p>
+      <div class="body"
+           tal:condition="item/wysiwyg|nothing"
+           tal:content="structure item/wysiwyg">
+        Additional WYSIWYG
+      </div>
     </li>
     </tal:item>
   </ul>
-  
+
+  </div>
+
 </html>

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0b8 (unreleased)
+------------------
+
+* Added alternating listing and refactored viewlet class simplify extending
+
 2.0b7 (2010-03-21)
 ------------------
 

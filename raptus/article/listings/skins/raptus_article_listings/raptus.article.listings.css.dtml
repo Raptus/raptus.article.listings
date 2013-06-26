@@ -6,24 +6,26 @@
 /* <dtml-call "REQUEST.set('left_width', portal_properties.raptus_article.teaser_listingleft_width)"> (not this either :) */
 /* <dtml-call "REQUEST.set('right_height', portal_properties.raptus_article.teaser_listingright_height)"> (not this either :) */
 /* <dtml-call "REQUEST.set('right_width', portal_properties.raptus_article.teaser_listingright_width)"> (not this either :) */
+/* <dtml-call "REQUEST.set('alternating_height', portal_properties.raptus_article.teaser_listingalternating_height)"> (not this either :) */
+/* <dtml-call "REQUEST.set('alternating_width', portal_properties.raptus_article.teaser_listingalternating_width)"> (not this either :) */
 /* <dtml-call "REQUEST.set('columns_crop_height', portal_properties.raptus_article.listings_columns_cropheight)"> (not this either :) */
 /* <dtml-call "REQUEST.set('columns_crop_width', portal_properties.raptus_article.listings_columns_cropwidth)"> (not this either :) */
 /* <dtml-call "REQUEST.set('left_crop_height', portal_properties.raptus_article.listings_left_cropheight)"> (not this either :) */
 /* <dtml-call "REQUEST.set('left_crop_width', portal_properties.raptus_article.listings_left_cropwidth)"> (not this either :) */
 /* <dtml-call "REQUEST.set('right_crop_height', portal_properties.raptus_article.listings_right_cropheight)"> (not this either :) */
 /* <dtml-call "REQUEST.set('right_crop_width', portal_properties.raptus_article.listings_right_cropwidth)"> (not this either :) */
+/* <dtml-call "REQUEST.set('alternating_crop_height', portal_properties.raptus_article.listings_alternating_cropheight)"> (not this either :) */
+/* <dtml-call "REQUEST.set('alternating_crop_width', portal_properties.raptus_article.listings_alternating_cropwidth)"> (not this either :) */
 
 ul.listing {
   clear:both;
   margin:3em 0;
-  line-height:1.5em;
-  font-size:0.9em;
 }
 
-ul.listing h2 {
+ul.listing h2,
+ul.listing h3 {
   border:none;
   margin-top:0;
-  font-size:1.3em;
 }
 
 ul.listing .component {
@@ -38,7 +40,6 @@ ul.listing li .component a,
 ul.listing li .component span {
   display:block;
   overflow:hidden;
-  float:left;
   position:relative;
 }
 
@@ -108,5 +109,51 @@ ul.listing-columns .last {
 ul.listing-columns .component {
   margin-bottom:0.5em;
 }
+
+ul.listing-alternating li .component a,
+ul.listing-alternating li .component span {
+  <dtml-if expr="alternating_crop_width > 0">
+  width:&dtml-alternating_crop_width;px;
+  </dtml-if>
+  <dtml-if expr="alternating_crop_height > 0">
+  height:&dtml-alternating_crop_height;px;
+  </dtml-if>
+}
+
+ul.listing-alternating li {
+  overflow:visible;
+  border-bottom:0;
+  padding:0;
+  background-color:transparent;
+}
+
+ul.listing-alternating li.odd {
+  padding-left:&dtml-alternating_width;px;
+  margin-left:1em;
+}
+
+ul.listing-alternating li.odd .component {
+  float:left;
+  position:relative;
+  left:-1em;
+  margin-left:-&dtml-alternating_width;px;
+}
+
+ul.listing-alternating li.even {
+  padding-right:&dtml-alternating_width;px;
+  margin-right:1em;
+}
+
+ul.listing-alternating li.even .component {
+  float:right;
+  position:relative;
+  right:-1em;
+  margin-right:-&dtml-alternating_width;px;
+}
+
+ul.listing-alternating li.even .manage {
+  right:-1em;
+}
+
 
 /* </dtml-with> */

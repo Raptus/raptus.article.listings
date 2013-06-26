@@ -25,34 +25,46 @@ try:
 except:
     pass
 
+WYSIWYG = False
+try:
+    from raptus.article.additionalwysiwyg.interfaces import IWYSIWYG
+    WYSIWYG = True
+except:
+    pass
+
+
 class IListingLeft(interface.Interface):
     """ Marker interface for the listing left viewlet
     """
+
 
 class ComponentLeft(object):
     """ Component which lists the articles with their images on the left side
     """
     interface.implements(interfaces.IComponent)
     component.adapts(interfaces.IArticle)
-    
+
     title = _(u'Listing left')
     description = _(u'List of the contained articles with their image on the left side.')
     image = '++resource++listing_left.gif'
     interface = IListingLeft
     viewlet = 'raptus.article.listing.left'
-    
+
     def __init__(self, context):
         self.context = context
+
 
 class ViewletLeft(ViewletBase):
     """ Viewlet listing the articles with their images on the left side
     """
+    title = None
+    cssClass = None
     index = ViewPageTemplateFile('listing.pt')
     image_class = "component componentLeft"
     type = "left"
     thumb_size = "listingleft"
     component = "listing.left"
-    
+
     def _class(self, brain, i, l):
         cls = []
         if i == 0:
@@ -64,18 +76,55 @@ class ViewletLeft(ViewletBase):
         if i % 2 == 1:
             cls.append('even')
         return ' '.join(cls)
-    
+
     @property
+    @memoize
     def title_pre(self):
         props = getToolByName(self.context, 'portal_properties').raptus_article
         return props.getProperty('listings_%s_titletop' % self.type, False)
-    
+
     @property
     @memoize
     def show_caption(self):
         props = getToolByName(self.context, 'portal_properties').raptus_article
         return props.getProperty('listings_%s_caption' % self.type, False)
-    
+
+    @property
+    @memoize
+    def wysiwyg(self):
+        props = getToolByName(self.context, 'portal_properties').raptus_article
+        return props.getProperty('listings_%s_additionalwysiwyg' % self.type, False)
+
+    def _data(self, item, i, l):
+        item.update({'title': item['brain'].Title,
+                     'description': item['brain'].Description,
+                     'url': item['brain'].hasDetail and item['brain'].getURL() or None,
+                     'class': self._class(item['brain'], i, l)})
+        if item.has_key('show') and item['show']:
+            item['class'] += ' hidden'
+        if REFERENCE:
+            reference = IReference(item['obj'])
+            url = reference.getReferenceURL()
+            if url:
+                item['url'] = url
+        if TEASER and self.thumb_size:
+            teaser = ITeaser(item['obj'])
+            image = {'img': teaser.getTeaser(self.thumb_size),
+                     'caption': teaser.getCaption(),
+                     'url': None,
+                     'rel': None}
+            if image['img']:
+                w, h = item['obj'].Schema()['image'].getSize(item['obj'])
+                tw, th = teaser.getSize(self.thumb_size)
+                if item['url']:
+                    image['url'] = item['url']
+                elif (tw < w and tw > 0) or (th < h and th > 0):
+                    image['rel'] = 'lightbox'
+                    image['url'] = teaser.getTeaserURL(size="popup")
+                item['image'] = image
+        if WYSIWYG and self.wysiwyg:
+            item['wysiwyg'] = IWYSIWYG(item['obj']).getAdditionalText()
+
     @property
     @memoize
     def articles(self):
@@ -90,53 +139,31 @@ class ViewletLeft(ViewletBase):
         i = 0
         l = len(items)
         for item in items:
-            item.update({'title': item['brain'].Title,
-                         'description': item['brain'].Description,
-                         'url': item['brain'].hasDetail and item['brain'].getURL() or None,
-                         'class': self._class(item['brain'], i, l)})
-            if item.has_key('show') and item['show']:
-                item['class'] += ' hidden'
-            if REFERENCE:
-                reference = IReference(item['obj'])
-                url = reference.getReferenceURL()
-                if url:
-                    item['url'] = url
-            if TEASER:
-                teaser = ITeaser(item['obj'])
-                image = {'img': teaser.getTeaser(self.thumb_size),
-                         'caption': teaser.getCaption(),
-                         'url': None,
-                         'rel': None}
-                if image['img']:
-                    w, h = item['obj'].Schema()['image'].getSize(item['obj'])
-                    tw, th = teaser.getSize(self.thumb_size)
-                    if item['url']:
-                        image['url'] = item['url']
-                    elif (tw < w and tw > 0) or (th < h and th > 0):
-                        image['rel'] = 'lightbox'
-                        image['url'] = teaser.getTeaserURL(size="popup")
-                    item['image'] = image
+            self._data(item, i, l)
             i += 1
         return items
+
 
 class IListingRight(interface.Interface):
     """ Marker interface for the listing right viewlet
     """
+
 
 class ComponentRight(object):
     """ Component which lists the articles with their images on the right side
     """
     interface.implements(interfaces.IComponent)
     component.adapts(interfaces.IArticle)
-    
+
     title = _(u'Listing right')
     description = _(u'List of the contained articles with their image on the right side.')
     image = '++resource++listing_right.gif'
     interface = IListingRight
     viewlet = 'raptus.article.listing.right'
-    
+
     def __init__(self, context):
         self.context = context
+
 
 class ViewletRight(ViewletLeft):
     """ Viewlet listing the articles with their images on the right side
@@ -146,24 +173,27 @@ class ViewletRight(ViewletLeft):
     thumb_size = "listingright"
     component = "listing.right"
 
+
 class IListingColumns(interface.Interface):
     """ Marker interface for the listing columns viewlet
     """
+
 
 class ComponentColumns(object):
     """ Component which lists the articles in multiple columns
     """
     interface.implements(interfaces.IComponent)
     component.adapts(interfaces.IArticle)
-    
+
     title = _(u'Listing columns')
     description = _(u'List of the contained articles arranged in columns.')
     image = '++resource++listing_columns.gif'
     interface = IListingColumns
     viewlet = 'raptus.article.listing.columns'
-    
+
     def __init__(self, context):
         self.context = context
+
 
 class ViewletColumns(ViewletLeft):
     """ Viewlet listing the articles in multiple columns
@@ -172,10 +202,39 @@ class ViewletColumns(ViewletLeft):
     type = "columns"
     thumb_size = "listingcolumns"
     component = "listing.columns"
-    
+
     def _class(self, brain, i, l):
         props = getToolByName(self.context, 'portal_properties').raptus_article
         prop_columns = props.getProperty('listings_columns', 3)
         i = i % prop_columns   
         return super(ViewletColumns, self)._class(brain, i, prop_columns)
-    
+
+
+class IListingAlternating(interface.Interface):
+    """ Marker interface for the listing alternating viewlet
+    """
+
+
+class ComponentAlternating(object):
+    """ Component which lists the articles with their images alternating on the left or right
+    """
+    interface.implements(interfaces.IComponent)
+    component.adapts(interfaces.IArticle)
+
+    title = _(u'Listing alternating')
+    description = _(u'List of the contained articles with their images alternating on the left or right.')
+    image = '++resource++listing_alternating.gif'
+    interface = IListingAlternating
+    viewlet = 'raptus.article.listing.alternating'
+
+    def __init__(self, context):
+        self.context = context
+
+
+class ViewletAlternating(ViewletLeft):
+    """ Viewlet listing the articles with their images alternating on the left or right
+    """
+    image_class = "component"
+    type = "alternating"
+    thumb_size = "listingalternating"
+    component = "listing.alternating"
