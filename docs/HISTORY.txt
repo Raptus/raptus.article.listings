@@ -4,6 +4,7 @@ Changelog
 2.0b8 (unreleased)
 ------------------
 
+* Only show hidden articles when in editing mode (introduced in raptus.article.core 2.0b13)
 * Added alternating listing and refactored viewlet class simplify extending
 
 2.0b7 (2010-03-21)

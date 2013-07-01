@@ -131,7 +131,7 @@ class ViewletLeft(ViewletBase):
         provider = IArticles(self.context)
         manageable = interfaces.IManageable(self.context)
         mship = getToolByName(self.context, 'portal_membership')
-        if mship.checkPermission(MANAGE_PERMISSION, self.context):
+        if interfaces.IArticleEditView.providedBy(self.view) and mship.checkPermission(MANAGE_PERMISSION, self.context):
             items = provider.getArticles()
         else:
             items = provider.getArticles(component=self.component)
@@ -206,7 +206,7 @@ class ViewletColumns(ViewletLeft):
     def _class(self, brain, i, l):
         props = getToolByName(self.context, 'portal_properties').raptus_article
         prop_columns = props.getProperty('listings_columns', 3)
-        i = i % prop_columns   
+        i = i % prop_columns
         return super(ViewletColumns, self)._class(brain, i, prop_columns)
 
 
