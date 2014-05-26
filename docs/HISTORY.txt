@@ -11,6 +11,9 @@ Changelog
 
   .. _plone.app.imagecropping: https://pypi.python.org/pypi/plone.app.imagecropping
 
+
+  .. ATTENTION:: requires raptus.article.teaser >= 2.0b12
+  
 2.0b8 (2013-07-01)
 ------------------
 
