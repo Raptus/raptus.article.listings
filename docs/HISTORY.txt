@@ -4,8 +4,12 @@ Changelog
 2.0b9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add properties ``teaser_listingleft_scale``, ``teaser_listingright_scale``
+  and ``teaser_listingcolumns_scale`` that allow to use plone.app.imaging.
+  
+  This allows us to use `plone.app.imagecropping`_ [fRiSi]
 
+  .. _plone.app.imagecropping: https://pypi.python.org/pypi/plone.app.imagecropping
 
 2.0b8 (2013-07-01)
 ------------------
