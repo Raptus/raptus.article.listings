@@ -68,7 +68,7 @@ class ViewletLeft(ViewletBase):
     title = None
     cssClass = None
     index = ViewPageTemplateFile('listing.pt')
-    image_class = "component componentLeft"
+    image_class = "component componentLeft img"
     type = "left"
     thumb_size = "listingleft"
     component = "listing.left"
@@ -179,7 +179,7 @@ class ComponentRight(object):
 class ViewletRight(ViewletLeft):
     """ Viewlet listing the articles with their images on the right side
     """
-    image_class = "component componentRight"
+    image_class = "component componentRight img"
     type = "right"
     thumb_size = "listingright"
     component = "listing.right"
@@ -209,7 +209,7 @@ class ComponentColumns(object):
 class ViewletColumns(ViewletLeft):
     """ Viewlet listing the articles in multiple columns
     """
-    image_class = "component"
+    image_class = "component img"
     type = "columns"
     thumb_size = "listingcolumns"
     component = "listing.columns"
@@ -245,7 +245,7 @@ class ComponentAlternating(object):
 class ViewletAlternating(ViewletLeft):
     """ Viewlet listing the articles with their images alternating on the left or right
     """
-    image_class = "component"
+    image_class = "component img"
     type = "alternating"
     thumb_size = "listingalternating"
     component = "listing.alternating"
