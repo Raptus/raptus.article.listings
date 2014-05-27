@@ -61,10 +61,27 @@ in the article in which this component is active.
 Configuration
 -------------
 
+Set ``listings_<component>_titletop`` property to ``True`` to display the title
+above the image, use ``False`` to display it below the teaser-image.
+
+``listings_<component>_caption`` shows the image caption below the image (in
+case it differs from the article title)
+
+``listings_<component>_wysiwyg`` will show the richtext content of the
+additional textfield in case `raptus.article.additionalwysiwyg`_ is installed.
+
+.. _`raptus.article.additionalwysiwyg`: https://pypi.python.org/pypi/raptus.article.additionalwysiwyg
+
+
 plone.app.imaging
 `````````````````
 
-To use plone.app.imaging scales simply set the corresponding properties to the name if the image scale.
+To use plone.app.imaging scales simply set the corresponding properties to the
+name if the image scale.
+
+You'll need to have `raptus.article.teaser` installed for having teaser images
+available on articles.
+
 
 If present, those will overrule the width and height settings.
 
