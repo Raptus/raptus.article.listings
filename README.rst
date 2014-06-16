@@ -7,13 +7,15 @@ The following features for raptus.article are provided by this package:
 
 Components
 ----------
-    * Listing columns (List of the contained articles arranged in columns.)
-    * Listing left (List of the contained articles with their image on the left side.)
-    * Listing right (List of the contained articles with their image on the right side.)
+
+* Listing columns (List of the contained articles arranged in columns.)
+* Listing left (List of the contained articles with their image on the left side.)
+* Listing right (List of the contained articles with their image on the right side.)
 
 Dependencies
 ------------
-    * raptus.article.nesting
+
+* raptus.article.nesting
 
 Installation
 ============
@@ -56,8 +58,41 @@ Navigate to the "Components" tab of your article and select one of the listing
 components and press "save and view". Note that at least one article has to be contained
 in the article in which this component is active.
 
+Configuration
+-------------
+
+Set ``listings_<component>_titletop`` property to ``True`` to display the title
+above the image, use ``False`` to display it below the teaser-image.
+
+``listings_<component>_caption`` shows the image caption below the image (in
+case it differs from the article title)
+
+``listings_<component>_wysiwyg`` will show the richtext content of the
+additional textfield in case `raptus.article.additionalwysiwyg`_ is installed.
+
+.. _`raptus.article.additionalwysiwyg`: https://pypi.python.org/pypi/raptus.article.additionalwysiwyg
+
+
+plone.app.imaging
+`````````````````
+
+To use plone.app.imaging scales simply set the corresponding properties to the
+name if the image scale.
+
+You'll need to have `raptus.article.teaser` installed for having teaser images
+available on articles.
+
+
+If present, those will overrule the width and height settings.
+
+Available properties:
+
+* ``teaser_listingleft_scale``
+* ``teaser_listingright_scale``
+* ``teaser_listingcolumns_scale``
+
 Copyright and credits
 =====================
 
-raptus.article is copyrighted by `Raptus AG <http://raptus.com>`_ and licensed under the GPL. 
+raptus.article is copyrighted by `Raptus AG <http://raptus.com>`_ and licensed under the GPL.
 See LICENSE.txt for details.

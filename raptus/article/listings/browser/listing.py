@@ -15,23 +15,31 @@ TEASER = False
 try:
     from raptus.article.teaser.interfaces import ITeaser
     TEASER = True
-except:
+except ImportError:
     pass
 
 REFERENCE = False
 try:
     from raptus.article.reference.interfaces import IReference
     REFERENCE = True
-except:
+except ImportError:
     pass
 
 WYSIWYG = False
 try:
     from raptus.article.additionalwysiwyg.interfaces import IWYSIWYG
     WYSIWYG = True
-except:
+except ImportError:
     pass
 
+CROPPING_AVAILABLE = False
+try:
+    import plone.app.imagecropping
+    CROPPING_AVAILABLE = True
+except ImportError:
+    pass
+    
+    
 
 class IListingLeft(interface.Interface):
     """ Marker interface for the listing left viewlet
@@ -60,7 +68,7 @@ class ViewletLeft(ViewletBase):
     title = None
     cssClass = None
     index = ViewPageTemplateFile('listing.pt')
-    image_class = "component componentLeft"
+    image_class = "component componentLeft img"
     type = "left"
     thumb_size = "listingleft"
     component = "listing.left"
@@ -69,7 +77,7 @@ class ViewletLeft(ViewletBase):
         cls = []
         if i == 0:
             cls.append('first')
-        if i == l-1:
+        if i == l - 1:
             cls.append('last')
         if i % 2 == 0:
             cls.append('odd')
@@ -113,6 +121,9 @@ class ViewletLeft(ViewletBase):
                      'caption': teaser.getCaption(),
                      'url': None,
                      'rel': None}
+            if teaser.getScale(self.thumb_size) and CROPPING_AVAILABLE:
+                item['crop'] = '%s/@@croppingeditor?scalename=%s' % (item['brain'].getURL(),
+                                                                     teaser.getScale(self.thumb_size))
             if image['img']:
                 w, h = item['obj'].Schema()['image'].getSize(item['obj'])
                 tw, th = teaser.getSize(self.thumb_size)
@@ -168,7 +179,7 @@ class ComponentRight(object):
 class ViewletRight(ViewletLeft):
     """ Viewlet listing the articles with their images on the right side
     """
-    image_class = "component componentRight"
+    image_class = "component componentRight img"
     type = "right"
     thumb_size = "listingright"
     component = "listing.right"
@@ -198,7 +209,7 @@ class ComponentColumns(object):
 class ViewletColumns(ViewletLeft):
     """ Viewlet listing the articles in multiple columns
     """
-    image_class = "component"
+    image_class = "component img"
     type = "columns"
     thumb_size = "listingcolumns"
     component = "listing.columns"
@@ -234,7 +245,7 @@ class ComponentAlternating(object):
 class ViewletAlternating(ViewletLeft):
     """ Viewlet listing the articles with their images alternating on the left or right
     """
-    image_class = "component"
+    image_class = "component img"
     type = "alternating"
     thumb_size = "listingalternating"
     component = "listing.alternating"
