@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0b9 (unreleased)
+2.0b9 (2014-06-16)
 ------------------
 
 - Add properties ``teaser_listingleft_scale``, ``teaser_listingright_scale``
